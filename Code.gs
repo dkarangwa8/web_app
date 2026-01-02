@@ -358,13 +358,30 @@ function getConfig() {
  * Handle GET requests - serve HTML pages
  */
 function doGet(e) {
+  // Get the page parameter, default to login
   const page = e.parameter.page || 'login';
   
   try {
-    return HtmlService.createHtmlOutputFromFile(page)
+    // Create HTML output from file
+    const htmlOutput = HtmlService.createHtmlOutputFromFile(page)
       .setTitle(CONFIG.COMPANY_NAME)
       .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+    
+    return htmlOutput;
   } catch (error) {
+    Logger.log('Error loading page ' + page + ': ' + error.toString());
+    
+    // If page not found, try to load login page
+    if (page !== 'login') {
+      try {
+        return HtmlService.createHtmlOutputFromFile('login')
+          .setTitle(CONFIG.COMPANY_NAME)
+          .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+      } catch (e2) {
+        return HtmlService.createHtmlOutput('Error: Could not load any pages. Please check that HTML files are added to Apps Script.');
+      }
+    }
+    
     return HtmlService.createHtmlOutput('Error loading page: ' + error.toString());
   }
 }
