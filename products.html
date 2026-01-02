@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - POS Management System</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        /* Products Module - Orange Theme */
+        .page-header {
+            background: linear-gradient(135deg, var(--products-dark), var(--products-primary));
+            color: white;
+        }
+
+        .btn-add {
+            background: var(--products-primary);
+            color: white;
+        }
+
+        .btn-add:hover {
+            background: var(--products-dark);
+        }
+
+        .product-row:hover {
+            background: var(--products-light);
+        }
+
+        .category-badge {
+            background: var(--products-light);
+            color: var(--products-dark);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container container">
+            <div class="navbar-brand">🛒 POS System</div>
+            <ul class="navbar-menu">
+                <li><a href="index.html" class="navbar-link" data-module="dashboard">📊 Dashboard</a></li>
+                <li><a href="pos.html" class="navbar-link" data-module="pos">💰 POS</a></li>
+                <li><a href="products.html" class="navbar-link active" data-module="products">📦 Products</a></li>
+                <li><a href="stock.html" class="navbar-link" data-module="stock">📊 Stock</a></li>
+                <li><a href="sales.html" class="navbar-link" data-module="sales">💵 Sales</a></li>
+                <li><a href="#" class="navbar-link" onclick="logout()">🚪 Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h1 class="page-title">📦 Product Management</h1>
+                <button class="btn btn-add" onclick="openAddModal()">+ Add Product</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container page-content">
+        <!-- Search & Filter -->
+        <div class="card mb-3">
+            <div style="display: flex; gap: var(--spacing-md);">
+                <input type="text" class="form-input" placeholder="🔍 Search products..." style="flex: 1;"
+                    id="searchInput" oninput="filterProducts()">
+                <select class="form-select" style="width: 200px;" id="categoryFilter" onchange="filterProducts()">
+                    <option value="">All Categories</option>
+                    <option value="Boissons">Boissons</option>
+                    <option value="Boulangerie">Boulangerie</option>
+                    <option value="Produits laitiers">Produits laitiers</option>
+                    <option value="Épicerie">Épicerie</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Products Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Purchase Price</th>
+                        <th>Sale Price</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="productsTable">
+                    <tr class="product-row">
+                        <td>PROD-001</td>
+                        <td><strong>Coca-Cola 500ml</strong></td>
+                        <td><span class="category-badge">Boissons</span></td>
+                        <td>RWF 300</td>
+                        <td><strong>RWF 500</strong></td>
+                        <td>45</td>
+                        <td><span class="badge badge-success">Active</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-products" onclick="editProduct('PROD-001')">Edit</button>
+                            <button class="btn btn-sm btn-outline" onclick="deleteProduct('PROD-001')">Delete</button>
+                        </td>
+                    </tr>
+                    <tr class="product-row">
+                        <td>PROD-002</td>
+                        <td><strong>Pain blanc</strong></td>
+                        <td><span class="category-badge">Boulangerie</span></td>
+                        <td>RWF 200</td>
+                        <td><strong>RWF 400</strong></td>
+                        <td>8</td>
+                        <td><span class="badge badge-success">Active</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-products" onclick="editProduct('PROD-002')">Edit</button>
+                            <button class="btn btn-sm btn-outline" onclick="deleteProduct('PROD-002')">Delete</button>
+                        </td>
+                    </tr>
+                    <tr class="product-row">
+                        <td>PROD-003</td>
+                        <td><strong>Lait 1L</strong></td>
+                        <td><span class="category-badge">Produits laitiers</span></td>
+                        <td>RWF 800</td>
+                        <td><strong>RWF 1,200</strong></td>
+                        <td>3</td>
+                        <td><span class="badge badge-success">Active</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-products" onclick="editProduct('PROD-003')">Edit</button>
+                            <button class="btn btn-sm btn-outline" onclick="deleteProduct('PROD-003')">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div id="productModal" class="modal-overlay hidden" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Add New Product</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="productForm">
+                    <div class="form-group">
+                        <label class="form-label">Product Name</label>
+                        <input type="text" class="form-input" id="productName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" id="productDesc"></textarea>
+                    </div>
+                    <div class="grid grid-2">
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select class="form-select" id="productCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="Boissons">Boissons</option>
+                                <option value="Boulangerie">Boulangerie</option>
+                                <option value="Produits laitiers">Produits laitiers</option>
+                                <option value="Épicerie">Épicerie</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Initial Stock</label>
+                            <input type="number" class="form-input" id="productStock" value="0" min="0">
+                        </div>
+                    </div>
+                    <div class="grid grid-2">
+                        <div class="form-group">
+                            <label class="form-label">Purchase Price (RWF)</label>
+                            <input type="number" class="form-input" id="productPurchase" required min="0">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Sale Price (RWF)</label>
+                            <input type="number" class="form-input" id="productSale" required min="0">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-products" onclick="saveProduct()">Save Product</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openAddModal() {
+            document.getElementById('modalTitle').textContent = 'Add New Product';
+            document.getElementById('productForm').reset();
+            document.getElementById('productModal').classList.remove('hidden');
+        }
+
+        function editProduct(id) {
+            document.getElementById('modalTitle').textContent = 'Edit Product';
+            document.getElementById('productModal').classList.remove('hidden');
+            // Load product data here
+        }
+
+        function closeModal(event) {
+            if (!event || event.target.classList.contains('modal-overlay')) {
+                document.getElementById('productModal').classList.add('hidden');
+            }
+        }
+
+        function saveProduct() {
+            // Save product logic here
+            alert('Product saved successfully!');
+            closeModal();
+        }
+
+        function deleteProduct(id) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                alert('Product deleted!');
+            }
+        }
+
+        function filterProducts() {
+            // Filter logic here
+        }
+
+        function logout() {
+            sessionStorage.clear();
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+
+</html>

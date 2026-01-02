@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales & Reports - POS System</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        /* Sales Module - Green Theme */
+        .page-header {
+            background: linear-gradient(135deg, var(--sales-dark), var(--sales-primary));
+            color: white;
+        }
+
+        .revenue-card {
+            background: linear-gradient(135deg, var(--sales-primary), var(--sales-secondary));
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+        }
+
+        .revenue-amount {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: var(--spacing-md) 0;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-container container">
+            <div class="navbar-brand">🛒 POS System</div>
+            <ul class="navbar-menu">
+                <li><a href="index.html" class="navbar-link" data-module="dashboard">📊 Dashboard</a></li>
+                <li><a href="pos.html" class="navbar-link" data-module="pos">💰 POS</a></li>
+                <li><a href="products.html" class="navbar-link" data-module="products">📦 Products</a></li>
+                <li><a href="stock.html" class="navbar-link" data-module="stock">📊 Stock</a></li>
+                <li><a href="sales.html" class="navbar-link active" data-module="sales">💵 Sales</a></li>
+                <li><a href="#" class="navbar-link" onclick="logout()">🚪 Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="container">
+            <h1 class="page-title">💵 Sales & Reports</h1>
+        </div>
+    </div>
+
+    <div class="container page-content">
+        <!-- Revenue Card -->
+        <div class="revenue-card mb-3">
+            <div style="opacity: 0.9;">Today's Revenue</div>
+            <div class="revenue-amount">RWF 125,000</div>
+            <div style="opacity: 0.9;">↑ 12% from yesterday</div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-4 mb-3">
+            <div class="card text-center">
+                <div style="font-size: 2rem;">📊</div>
+                <div style="font-size: 1.5rem; font-weight: 700; margin: var(--spacing-sm) 0;">45</div>
+                <div style="color: var(--gray-600); font-size: 0.875rem;">Transactions</div>
+            </div>
+            <div class="card text-center">
+                <div style="font-size: 2rem;">💰</div>
+                <div style="font-size: 1.5rem; font-weight: 700; margin: var(--spacing-sm) 0;">RWF 42K</div>
+                <div style="color: var(--gray-600); font-size: 0.875rem;">Profit</div>
+            </div>
+            <div class="card text-center">
+                <div style="font-size: 2rem;">🎯</div>
+                <div style="font-size: 1.5rem; font-weight: 700; margin: var(--spacing-sm) 0;">RWF 2.8K</div>
+                <div style="color: var(--gray-600); font-size: 0.875rem;">Avg. Sale</div>
+            </div>
+            <div class="card text-center">
+                <div style="font-size: 2rem;">👥</div>
+                <div style="font-size: 1.5rem; font-weight: 700; margin: var(--spacing-sm) 0;">23</div>
+                <div style="color: var(--gray-600); font-size: 0.875rem;">Customers</div>
+            </div>
+        </div>
+
+        <!-- Recent Sales -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sale ID</th>
+                        <th>Date & Time</th>
+                        <th>Customer</th>
+                        <th>Items</th>
+                        <th>Amount</th>
+                        <th>Payment</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>SALE-001</strong></td>
+                        <td>Today, 14:30</td>
+                        <td>Walk-in Customer</td>
+                        <td>3</td>
+                        <td><strong style="color: var(--sales-primary);">RWF 2,100</strong></td>
+                        <td><span class="badge badge-success">Cash</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-sales" onclick="viewReceipt('SALE-001')">Receipt</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>SALE-002</strong></td>
+                        <td>Today, 13:15</td>
+                        <td>ABC Store</td>
+                        <td>5</td>
+                        <td><strong style="color: var(--sales-primary);">RWF 5,800</strong></td>
+                        <td><span class="badge badge-info">Mobile Money</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-sales" onclick="viewReceipt('SALE-002')">Receipt</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function viewReceipt(id) {
+            alert('Viewing receipt for ' + id);
+        }
+
+        function logout() {
+            sessionStorage.clear();
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers - POS System</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--customers-dark), var(--customers-primary));
+            color: white;
+        }
+
+        .btn-add {
+            background: var(--customers-primary);
+            color: white;
+        }
+
+        .btn-add:hover {
+            background: var(--customers-dark);
+        }
+
+        .type-badge {
+            background: var(--customers-light);
+            color: var(--customers-dark);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-container container">
+            <div class="navbar-brand">🛒 POS System</div>
+            <ul class="navbar-menu">
+                <li><a href="index.html" class="navbar-link" data-module="dashboard">📊 Dashboard</a></li>
+                <li><a href="pos.html" class="navbar-link" data-module="pos">💰 POS</a></li>
+                <li><a href="suppliers.html" class="navbar-link" data-module="suppliers">🏭 Suppliers</a></li>
+                <li><a href="customers.html" class="navbar-link active" data-module="customers">👥 Customers</a></li>
+                <li><a href="#" class="navbar-link" onclick="logout()">🚪 Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h1 class="page-title">👥 Customer Management</h1>
+                <button class="btn btn-add">+ Add Customer</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container page-content">
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer Name</th>
+                        <th>Type</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Total Purchases</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CUST-001</td>
+                        <td><strong>ABC Store</strong></td>
+                        <td><span class="type-badge">Entreprise</span></td>
+                        <td>customer@abcstore.com</td>
+                        <td>+250 788 654 321</td>
+                        <td><strong>RWF 2.5M</strong></td>
+                        <td>
+                            <button class="btn btn-sm btn-customers">Edit</button>
+                            <button class="btn btn-sm btn-outline">History</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>CUST-002</td>
+                        <td><strong>Jean Doe</strong></td>
+                        <td><span class="type-badge">Particulier</span></td>
+                        <td>jean@example.com</td>
+                        <td>+250 788 111 222</td>
+                        <td><strong>RWF 450K</strong></td>
+                        <td>
+                            <button class="btn btn-sm btn-customers">Edit</button>
+                            <button class="btn btn-sm btn-outline">History</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        function logout() {
+            sessionStorage.clear();
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+
+</html>

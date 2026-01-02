@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Management - POS System</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        /* Stock Module - Red Theme */
+        .page-header {
+            background: linear-gradient(135deg, var(--stock-dark), var(--stock-primary));
+            color: white;
+        }
+
+        .stock-low {
+            background: var(--stock-light);
+            border-left: 4px solid var(--stock-primary);
+        }
+
+        .stock-ok {
+            background: var(--sales-light);
+            border-left: 4px solid var(--sales-primary);
+        }
+
+        .stock-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--spacing-md);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-container container">
+            <div class="navbar-brand">🛒 POS System</div>
+            <ul class="navbar-menu">
+                <li><a href="index.html" class="navbar-link" data-module="dashboard">📊 Dashboard</a></li>
+                <li><a href="pos.html" class="navbar-link" data-module="pos">💰 POS</a></li>
+                <li><a href="products.html" class="navbar-link" data-module="products">📦 Products</a></li>
+                <li><a href="stock.html" class="navbar-link active" data-module="stock">📊 Stock</a></li>
+                <li><a href="sales.html" class="navbar-link" data-module="sales">💵 Sales</a></li>
+                <li><a href="#" class="navbar-link" onclick="logout()">🚪 Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="container">
+            <h1 class="page-title">📊 Stock Management</h1>
+        </div>
+    </div>
+
+    <div class="container page-content">
+        <!-- Stats -->
+        <div class="grid grid-3 mb-3">
+            <div class="card">
+                <h3>Total Products</h3>
+                <div style="font-size: 2rem; font-weight: 700; color: var(--stock-primary);">156</div>
+            </div>
+            <div class="card">
+                <h3>Low Stock Items</h3>
+                <div style="font-size: 2rem; font-weight: 700; color: var(--error);">8</div>
+            </div>
+            <div class="card">
+                <h3>Out of Stock</h3>
+                <div style="font-size: 2rem; font-weight: 700; color: var(--gray-500);">2</div>
+            </div>
+        </div>
+
+        <!-- Low Stock Alerts -->
+        <div class="card mb-3">
+            <h2 class="section-title">🚨 Low Stock Alerts</h2>
+            <div class="stock-card stock-low">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <strong>Coca-Cola 500ml</strong>
+                        <div style="font-size: 0.875rem; color: var(--stock-dark);">Only 5 units remaining</div>
+                    </div>
+                    <button class="btn btn-stock">Reorder</button>
+                </div>
+            </div>
+            <div class="stock-card stock-low">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <strong>Pain blanc</strong>
+                        <div style="font-size: 0.875rem; color: var(--stock-dark);">Only 8 units remaining</div>
+                    </div>
+                    <button class="btn btn-stock">Reorder</button>
+                </div>
+            </div>
+            <div class="stock-card stock-low">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <strong>Lait 1L</strong>
+                        <div style="font-size: 0.875rem; color: var(--error); font-weight: 600;">Critical: Only 3 units
+                        </div>
+                    </div>
+                    <button class="btn btn-stock">Reorder Now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stock Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Current Stock</th>
+                        <th>Alert Threshold</th>
+                        <th>Status</th>
+                        <th>Last Movement</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Coca-Cola 500ml</strong></td>
+                        <td>Boissons</td>
+                        <td style="font-weight: 700; color: var(--error);">5</td>
+                        <td>10</td>
+                        <td><span class="badge badge-warning">Low</span></td>
+                        <td>2 hours ago</td>
+                        <td><button class="btn btn-sm btn-stock" onclick="adjustStock('PROD-001')">Adjust</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Riz 1kg</strong></td>
+                        <td>Épicerie</td>
+                        <td style="font-weight: 700; color: var(--success);">50</td>
+                        <td>10</td>
+                        <td><span class="badge badge-success">OK</span></td>
+                        <td>5 hours ago</td>
+                        <td><button class="btn btn-sm btn-stock" onclick="adjustStock('PROD-004')">Adjust</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function adjustStock(id) {
+            const qty = prompt('Enter quantity to add (use negative for subtraction):');
+            if (qty) {
+                alert(`Stock adjusted by ${qty} units`);
+            }
+        }
+
+        function logout() {
+            sessionStorage.clear();
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+
+</html>

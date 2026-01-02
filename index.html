@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - POS Management System</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        body {
+            background: var(--gray-50);
+        }
+
+        /* Dashboard-specific styles - Purple theme */
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--dashboard-dark), var(--dashboard-primary));
+            color: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .dashboard-title {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .dashboard-subtitle {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: currentColor;
+        }
+
+        .stat-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .stat-card.sales {
+            color: var(--sales-primary);
+        }
+
+        .stat-card.stock {
+            color: var(--stock-primary);
+        }
+
+        .stat-card.orders {
+            color: var(--orders-primary);
+        }
+
+        .stat-card.customers {
+            color: var(--customers-primary);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stat-label {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-change {
+            margin-top: var(--spacing-sm);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: var(--success);
+        }
+
+        .stat-change.negative {
+            color: var(--error);
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .quick-action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-lg);
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-decoration: none;
+            color: var(--gray-900);
+        }
+
+        .quick-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .quick-action-icon {
+            font-size: 2rem;
+        }
+
+        .quick-action-label {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--spacing-lg);
+        }
+
+        .recent-activity {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        .activity-item {
+            display: flex;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md) 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        .low-stock-alerts {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .alert-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            background: var(--stock-light);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .alert-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .alert-info {
+            flex: 1;
+        }
+
+        .alert-product {
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .alert-stock {
+            font-size: 0.875rem;
+            color: var(--stock-dark);
+        }
+
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container container">
+            <div class="navbar-brand">🛒 POS System</div>
+            <ul class="navbar-menu">
+                <li class="navbar-item">
+                    <a href="index.html" class="navbar-link active" data-module="dashboard">
+                        📊 Dashboard
+                    </a>
+                </li>
+                <li class="navbar-item">
+                    <a href="pos.html" class="navbar-link" data-module="pos">
+                        💰 POS
+                    </a>
+                </li>
+                <li class="navbar-item">
+                    <a href="products.html" class="navbar-link" data-module="products">
+                        📦 Products
+                    </a>
+                </li>
+                <li class="navbar-item">
+                    <a href="stock.html" class="navbar-link" data-module="stock">
+                        📊 Stock
+                    </a>
+                </li>
+                <li class="navbar-item">
+                    <a href="sales.html" class="navbar-link" data-module="sales">
+                        💵 Sales
+                    </a>
+                </li>
+                <li class="navbar-item">
+                    <a href="#" class="navbar-link" onclick="logout()">
+                        🚪 Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container page-content">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Welcome back, <span id="userName">Admin</span>! 👋</h1>
+            <p class="dashboard-subtitle">Here's what's happening with your store today</p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card sales">
+                <div class="stat-icon">💰</div>
+                <div class="stat-value" id="todaySales">RWF 0</div>
+                <div class="stat-label">Today's Sales</div>
+                <div class="stat-change positive">↑ 12% from yesterday</div>
+            </div>
+
+            <div class="stat-card stock">
+                <div class="stat-icon">📦</div>
+                <div class="stat-value" id="lowStockCount">0</div>
+                <div class="stat-label">Low Stock Alerts</div>
+                <div class="stat-change negative">Needs attention</div>
+            </div>
+
+            <div class="stat-card orders">
+                <div class="stat-icon">🛍️</div>
+                <div class="stat-value" id="pendingOrders">0</div>
+                <div class="stat-label">Pending Orders</div>
+                <div class="stat-change positive">On track</div>
+            </div>
+
+            <div class="stat-card customers">
+                <div class="stat-icon">👥</div>
+                <div class="stat-value" id="totalCustomers">0</div>
+                <div class="stat-label">Total Customers</div>
+                <div class="stat-change positive">↑ 8 this week</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card">
+            <h2 class="section-title">Quick Actions</h2>
+            <div class="quick-actions">
+                <a href="pos.html" class="quick-action-btn">
+                    <div class="quick-action-icon">💳</div>
+                    <div class="quick-action-label">New Sale</div>
+                </a>
+                <a href="products.html" class="quick-action-btn">
+                    <div class="quick-action-icon">➕</div>
+                    <div class="quick-action-label">Add Product</div>
+                </a>
+                <a href="customers.html" class="quick-action-btn">
+                    <div class="quick-action-icon">👤</div>
+                    <div class="quick-action-label">New Customer</div>
+                </a>
+                <a href="stock.html" class="quick-action-btn">
+                    <div class="quick-action-icon">📊</div>
+                    <div class="quick-action-label">Check Stock</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Recent Activity -->
+            <div class="recent-activity">
+                <h2 class="section-title">Recent Activity</h2>
+                <div id="activityList">
+                    <div class="activity-item">
+                        <div class="activity-icon">💰</div>
+                        <div class="activity-content">
+                            <div class="activity-title">New sale completed</div>
+                            <div class="activity-time">5 minutes ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">📦</div>
+                        <div class="activity-content">
+                            <div class="activity-title">Stock updated for Coca-Cola 500ml</div>
+                            <div class="activity-time">15 minutes ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">👤</div>
+                        <div class="activity-content">
+                            <div class="activity-title">New customer registered</div>
+                            <div class="activity-time">1 hour ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">🛍️</div>
+                        <div class="activity-content">
+                            <div class="activity-title">Supplier order received</div>
+                            <div class="activity-time">2 hours ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Low Stock Alerts -->
+            <div class="low-stock-alerts">
+                <h2 class="section-title">Low Stock Alerts</h2>
+                <div id="lowStockList">
+                    <div class="alert-item">
+                        <div class="alert-info">
+                            <div class="alert-product">Coca-Cola 500ml</div>
+                            <div class="alert-stock">Only 5 units left</div>
+                        </div>
+                        <span class="badge badge-warning">Low</span>
+                    </div>
+                    <div class="alert-item">
+                        <div class="alert-info">
+                            <div class="alert-product">Pain blanc</div>
+                            <div class="alert-stock">Only 8 units left</div>
+                        </div>
+                        <span class="badge badge-warning">Low</span>
+                    </div>
+                    <div class="alert-item">
+                        <div class="alert-info">
+                            <div class="alert-product">Lait 1L</div>
+                            <div class="alert-stock">Only 3 units left</div>
+                        </div>
+                        <span class="badge badge-error">Critical</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        function checkAuth() {
+            const user = sessionStorage.getItem('user') || localStorage.getItem('user');
+            if (!user) {
+                window.location.href = 'login.html';
+                return null;
+            }
+            return JSON.parse(user);
+        }
+
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('user');
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+
+        // Load dashboard data
+        async function loadDashboard() {
+            const user = checkAuth();
+            if (!user) return;
+
+            // Update user name
+            document.getElementById('userName').textContent = user.nom || 'User';
+
+            // For Google Apps Script deployment
+            if (typeof google !== 'undefined' && google.script) {
+                // Load real data from backend
+                google.script.run
+                    .withSuccessHandler((result) => {
+                        if (result.success) {
+                            updateDashboardStats(result.data);
+                        }
+                    })
+                    .withFailureHandler((error) => {
+                        console.error('Error loading dashboard:', error);
+                    })
+                    .getDashboardData();
+            } else {
+                // Demo data for standalone viewing
+                updateDashboardStats({
+                    todaySales: 125000,
+                    lowStockCount: 3,
+                    pendingOrders: 5,
+                    totalCustomers: 47
+                });
+            }
+        }
+
+        function updateDashboardStats(data) {
+            document.getElementById('todaySales').textContent = 'RWF ' + data.todaySales.toLocaleString();
+            document.getElementById('lowStockCount').textContent = data.lowStockCount;
+            document.getElementById('pendingOrders').textContent = data.pendingOrders;
+            document.getElementById('totalCustomers').textContent = data.totalCustomers;
+        }
+
+        // Initialize dashboard
+        window.addEventListener('load', loadDashboard);
+    </script>
+</body>
+
+</html>

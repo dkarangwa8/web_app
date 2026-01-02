@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - POS System</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--orders-dark), var(--orders-primary));
+            color: white;
+        }
+
+        .btn-add {
+            background: var(--orders-primary);
+            color: white;
+        }
+
+        .btn-add:hover {
+            background: var(--orders-dark);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-container container">
+            <div class="navbar-brand">🛒 POS System</div>
+            <ul class="navbar-menu">
+                <li><a href="index.html" class="navbar-link" data-module="dashboard">📊 Dashboard</a></li>
+                <li><a href="pos.html" class="navbar-link" data-module="pos">💰 POS</a></li>
+                <li><a href="orders.html" class="navbar-link active" data-module="orders">📋 Orders</a></li>
+                <li><a href="#" class="navbar-link" onclick="logout()">🚪 Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h1 class="page-title">📋 Order Management</h1>
+                <button class="btn btn-add">+ New Order</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container page-content">
+        <!-- Tabs -->
+        <div
+            style="display: flex; gap: var(--spacing-md); margin-bottom: var(--spacing-xl); border-bottom: 2px solid var(--gray-200);">
+            <button class="btn btn-ghost" style="border-bottom: 3px solid var(--orders-primary);">Supplier
+                Orders</button>
+            <button class="btn btn-ghost">Customer Orders</button>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Supplier</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>SO-001</strong></td>
+                        <td>2026-01-02</td>
+                        <td>Bralirwa Ltd</td>
+                        <td>15</td>
+                        <td><strong>RWF 450,000</strong></td>
+                        <td><span class="badge badge-warning">En attente</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-orders">Receive</button>
+                            <button class="btn btn-sm btn-outline">Details</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>SO-002</strong></td>
+                        <td>2025-12-30</td>
+                        <td>Bralirwa Ltd</td>
+                        <td>20</td>
+                        <td><strong>RWF 680,000</strong></td>
+                        <td><span class="badge badge-success">Reçue</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-outline">Details</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        function logout() {
+            sessionStorage.clear();
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+
+</html>

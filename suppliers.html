@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suppliers - POS System</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--suppliers-dark), var(--suppliers-primary));
+            color: white;
+        }
+
+        .btn-add {
+            background: var(--suppliers-primary);
+            color: white;
+        }
+
+        .btn-add:hover {
+            background: var(--suppliers-dark);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-container container">
+            <div class="navbar-brand">🛒 POS System</div>
+            <ul class="navbar-menu">
+                <li><a href="index.html" class="navbar-link" data-module="dashboard">📊 Dashboard</a></li>
+                <li><a href="pos.html" class="navbar-link" data-module="pos">💰 POS</a></li>
+                <li><a href="suppliers.html" class="navbar-link active" data-module="suppliers">🏭 Suppliers</a></li>
+                <li><a href="customers.html" class="navbar-link" data-module="customers">👥 Customers</a></li>
+                <li><a href="#" class="navbar-link" onclick="logout()">🚪 Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h1 class="page-title">🏭 Supplier Management</h1>
+                <button class="btn btn-add">+ Add Supplier</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container page-content">
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Supplier Name</th>
+                        <th>Contact Person</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>SUPP-001</td>
+                        <td><strong>Bralirwa Ltd</strong></td>
+                        <td>Jean Supplier</td>
+                        <td>supplier@bralirwa.com</td>
+                        <td>+250 788 123 456</td>
+                        <td>KN 5 Ave, Kigali</td>
+                        <td>
+                            <button class="btn btn-sm btn-suppliers">Edit</button>
+                            <button class="btn btn-sm btn-outline">Orders</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        function logout() {
+            sessionStorage.clear();
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+
+</html>
