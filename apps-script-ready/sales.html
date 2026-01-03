@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales & Reports - POS System</title>
+    
+    <style>
+/**
+ * POS Management System - Main Styles
+ * Color-coded modules with modern design
+ */
+
+/* ============================================================================
+   CSS VARIABLES & COLOR SYSTEM
+   Each module has its own unique color theme
+   ============================================================================ */
+
+:root {
+  /* Login Module - Deep Blue */
+  --login-primary: #1e40af;
+  --login-secondary: #3b82f6;
+  --login-light: #dbeafe;
+  --login-dark: #1e3a8a;
+  
+  /* Dashboard Module - Purple/Indigo */
+  --dashboard-primary: #6366f1;
+  --dashboard-secondary: #8b5cf6;
+  --dashboard-light: #e0e7ff;
+  --dashboard-dark: #4c1d95;
+  
+  /* POS Module - Emerald Green (Money/Sales) */
+  --pos-primary: #059669;
+  --pos-secondary: #10b981;
+  --pos-light: #d1fae5;
+  --pos-dark: #065f46;
+  
+  /* Products Module - Orange */
+  --products-primary: #ea580c;
+  --products-secondary: #f97316;
+  --products-light: #ffedd5;
+  --products-dark: #c2410c;
+  
+  /* Suppliers Module - Teal/Cyan */
+  --suppliers-primary: #0891b2;
+  --suppliers-secondary: #06b6d4;
+  --suppliers-light: #cffafe;
+  --suppliers-dark: #155e75;
+  
+  /* Customers Module - Pink/Magenta */
+  --customers-primary: #db2777;
+  --customers-secondary: #ec4899;
+  --customers-light: #fce7f3;
+  --customers-dark: #9f1239;
+  
+  /* Orders Module - Amber/Yellow */
+  --orders-primary: #d97706;
+  --orders-secondary: #f59e0b;
+  --orders-light: #fef3c7;
+  --orders-dark: #92400e;
+  
+  /* Stock Module - Red (Alerts/Inventory) */
+  --stock-primary: #dc2626;
+  --stock-secondary: #ef4444;
+  --stock-light: #fee2e2;
+  --stock-dark: #991b1b;
+  
+  /* Sales Module - Green (Revenue) */
+  --sales-primary: #16a34a;
+  --sales-secondary: #22c55e;
+  --sales-light: #dcfce7;
+  --sales-dark: #166534;
+  
+  /* Users Module - Violet */
+  --users-primary: #7c3aed;
+  --users-secondary: #8b5cf6;
+  --users-light: #ede9fe;
+  --users-dark: #5b21b6;
+  
+  /* Neutral Colors */
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+  
+  /* Semantic Colors */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+  
+  /* Typography */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Fira Code', 'Courier New', monospace;
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  
+  /* Transitions */
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 300ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+}
+
+/* ============================================================================
+   GLOBAL RESET & BASE STYLES
+   ============================================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-primary);
+  background: var(--gray-50);
+  color: var(--gray-900);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================================
+   TYPOGRAPHY
+   ============================================================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: var(--spacing-md);
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+p {
+  margin-bottom: var(--spacing-md);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+/* ============================================================================
+   LAYOUT COMPONENTS
+   ============================================================================ */
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-header {
+  background: white;
+  border-bottom: 1px solid var(--gray-200);
+  padding: var(--spacing-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.page-content {
+  flex: 1;
+  padding: var(--spacing-xl);
+}
+
+/* ============================================================================
+   NAVIGATION
+   ============================================================================ */
+
+.navbar {
+  background: white;
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--dashboard-primary), var(--pos-primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.navbar-menu {
+  display: flex;
+  gap: var(--spacing-sm);
+  list-style: none;
+}
+
+.navbar-item {
+  position: relative;
+}
+
+.navbar-link {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+.navbar-link:hover {
+  background: var(--gray-100);
+}
+
+.navbar-link.active {
+  background: var(--gray-100);
+  font-weight: 600;
+}
+
+/* Module-specific navbar colors */
+.navbar-link[data-module="dashboard"]:hover { background: var(--dashboard-light); color: var(--dashboard-dark); }
+.navbar-link[data-module="pos"]:hover { background: var(--pos-light); color: var(--pos-dark); }
+.navbar-link[data-module="products"]:hover { background: var(--products-light); color: var(--products-dark); }
+.navbar-link[data-module="suppliers"]:hover { background: var(--suppliers-light); color: var(--suppliers-dark); }
+.navbar-link[data-module="customers"]:hover { background: var(--customers-light); color: var(--customers-dark); }
+.navbar-link[data-module="orders"]:hover { background: var(--orders-light); color: var(--orders-dark); }
+.navbar-link[data-module="stock"]:hover { background: var(--stock-light); color: var(--stock-dark); }
+.navbar-link[data-module="sales"]:hover { background: var(--sales-light); color: var(--sales-dark); }
+.navbar-link[data-module="users"]:hover{ background: var(--users-light); color: var(--users-dark); }
+
+/* ============================================================================
+   BUTTONS
+   ============================================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-sm {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: 0.875rem;
+}
+
+.btn-lg {
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: 1.125rem;
+}
+
+/* Module-specific button colors */
+.btn-login { background: var(--login-primary); color: white; }
+.btn-login:hover { background: var(--login-dark); }
+
+.btn-dashboard { background: var(--dashboard-primary); color: white; }
+.btn-dashboard:hover { background: var(--dashboard-dark); }
+
+.btn-pos { background: var(--pos-primary); color: white; }
+.btn-pos:hover { background: var(--pos-dark); }
+
+.btn-products { background: var(--products-primary); color: white; }
+.btn-products:hover { background: var(--products-dark); }
+
+.btn-suppliers { background: var(--suppliers-primary); color: white; }
+.btn-suppliers:hover { background: var(--suppliers-dark); }
+
+.btn-customers { background: var(--customers-primary); color: white; }
+.btn-customers:hover { background: var(--customers-dark); }
+
+.btn-orders { background: var(--orders-primary); color: white; }
+.btn-orders:hover { background: var(--orders-dark); }
+
+.btn-stock { background: var(--stock-primary); color: white; }
+.btn-stock:hover { background: var(--stock-dark); }
+
+.btn-sales { background: var(--sales-primary); color: white; }
+.btn-sales:hover { background: var(--sales-dark); }
+
+.btn-users { background: var(--users-primary); color: white; }
+.btn-users:hover { background: var(--users-dark); }
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid currentColor;
+}
+
+.btn-ghost {
+  background: transparent;
+}
+
+.btn-ghost:hover {
+  background: var(--gray-100);
+}
+
+/* ============================================================================
+   CARDS
+   ============================================================================ */
+
+.card {
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-lg);
+  transition: all var(--transition-normal);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.card-header {
+  border-bottom: 1px solid var(--gray-200);
+  padding-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.card-body {
+  padding: var(--spacing-md) 0;
+}
+
+.card-footer {
+  border-top: 1px solid var(--gray-200);
+  padding-top: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+}
+
+/* ============================================================================
+   FORMS
+   ============================================================================ */
+
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+  color: var(--gray-700);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 2px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all var(--transition-fast);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--dashboard-primary);
+  box-shadow: 0 0 0 3px var(--dashboard-light);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-error {
+  color: var(--error);
+  font-size: 0.875rem;
+  margin-top: var(--spacing-xs);
+}
+
+/* ============================================================================
+   TABLES
+   ============================================================================ */
+
+.table-container {
+  overflow-x: auto;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: var(--gray-100);
+}
+
+th {
+  padding: var(--spacing-md);
+  text-align: left;
+  font-weight: 600;
+  color: var(--gray-700);
+  border-bottom: 2px solid var(--gray-300);
+}
+
+td {
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+tr:hover {
+  background: var(--gray-50);
+}
+
+/* ============================================================================
+   BADGES & PILLS
+   ============================================================================ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-success {
+  background: var(--success);
+  color: white;
+}
+
+.badge-warning {
+  background: var(--warning);
+  color: white;
+}
+
+.badge-error {
+  background: var(--error);
+  color: white;
+}
+
+.badge-info {
+  background: var(--info);
+  color: white;
+}
+
+/* ============================================================================
+   MODAL
+   ============================================================================ */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  background: white;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--gray-200);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--gray-500);
+  transition: color var(--transition-fast);
+}
+
+.modal-close:hover {
+  color: var(--gray-900);
+}
+
+.modal-body {
+  padding: var(--spacing-lg);
+}
+
+.modal-footer {
+  padding: var(--spacing-lg);
+  border-top: 1px solid var(--gray-200);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+}
+
+/* ============================================================================
+   UTILITY CLASSES
+   ============================================================================ */
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+
+.mt-1 { margin-top: var(--spacing-sm); }
+.mt-2 { margin-top: var(--spacing-md); }
+.mt-3 { margin-top: var(--spacing-lg); }
+.mt-4 { margin-top: var(--spacing-xl); }
+
+.mb-1 { margin-bottom: var(--spacing-sm); }
+.mb-2 { margin-bottom: var(--spacing-md); }
+.mb-3 { margin-bottom: var(--spacing-lg); }
+.mb-4 { margin-bottom: var(--spacing-xl); }
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.gap-1 { gap: var(--spacing-sm); }
+.gap-2 { gap: var(--spacing-md); }
+.gap-3 { gap: var(--spacing-lg); }
+
+.grid {
+  display: grid;
+  gap: var(--spacing-lg);
+}
+
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+.hidden { display: none; }
+.visible { display: block; }
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.fade-in {
+  animation: fadeIn var(--transition-normal);
+}
+
+.slide-up {
+  animation: slideUp var(--transition-normal);
+}
+
+.pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .navbar-menu {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal {
+    width: 95%;
+  }
+}
+
+</style>
+  <style>
+        /* Sales Module - Green Theme */
+        .page-header {
+            background: linear-gradient(135deg, var(--sales-dark), var(--sales-primary));
+            color: white;
+        }
+
+        .revenue-card {
+            background: linear-gradient(135deg, var(--sales-primary), var(--sales-secondary));
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+        }
+
+        .revenue-amount {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: var(--spacing-md) 0;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-container container">
+            <div class="navbar-brand">🛒 POS System</div>
+            <ul class="navbar-menu">
+                <li><a href="#" onclick="navigateTo('index')" class="navbar-link" data-module="dashboard">📊 Dashboard</a></li>
+                <li><a href="#" onclick="navigateTo('pos')" class="navbar-link" data-module="pos">💰 POS</a></li>
+                <li><a href="#" onclick="navigateTo('products')" class="navbar-link" data-module="products">📦 Products</a></li>
+                <li><a href="#" onclick="navigateTo('stock')" class="navbar-link" data-module="stock">📊 Stock</a></li>
+                <li><a href="#" onclick="navigateTo('sales')" class="navbar-link active" data-module="sales">💵 Sales</a></li>
+                <li><a href="#" class="navbar-link" onclick="logout()">🚪 Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="container">
+            <h1 class="page-title">💵 Sales & Reports</h1>
+        </div>
+    </div>
+
+    <div class="container page-content">
+        <!-- Revenue Card -->
+        <div class="revenue-card mb-3">
+            <div style="opacity: 0.9;">Today's Revenue</div>
+            <div class="revenue-amount">RWF 125,000</div>
+            <div style="opacity: 0.9;">↑ 12% from yesterday</div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-4 mb-3">
+            <div class="card text-center">
+                <div style="font-size: 2rem;">📊</div>
+                <div style="font-size: 1.5rem; font-weight: 700; margin: var(--spacing-sm) 0;">45</div>
+                <div style="color: var(--gray-600); font-size: 0.875rem;">Transactions</div>
+            </div>
+            <div class="card text-center">
+                <div style="font-size: 2rem;">💰</div>
+                <div style="font-size: 1.5rem; font-weight: 700; margin: var(--spacing-sm) 0;">RWF 42K</div>
+                <div style="color: var(--gray-600); font-size: 0.875rem;">Profit</div>
+            </div>
+            <div class="card text-center">
+                <div style="font-size: 2rem;">🎯</div>
+                <div style="font-size: 1.5rem; font-weight: 700; margin: var(--spacing-sm) 0;">RWF 2.8K</div>
+                <div style="color: var(--gray-600); font-size: 0.875rem;">Avg. Sale</div>
+            </div>
+            <div class="card text-center">
+                <div style="font-size: 2rem;">👥</div>
+                <div style="font-size: 1.5rem; font-weight: 700; margin: var(--spacing-sm) 0;">23</div>
+                <div style="color: var(--gray-600); font-size: 0.875rem;">Customers</div>
+            </div>
+        </div>
+
+        <!-- Recent Sales -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sale ID</th>
+                        <th>Date & Time</th>
+                        <th>Customer</th>
+                        <th>Items</th>
+                        <th>Amount</th>
+                        <th>Payment</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>SALE-001</strong></td>
+                        <td>Today, 14:30</td>
+                        <td>Walk-in Customer</td>
+                        <td>3</td>
+                        <td><strong style="color: var(--sales-primary);">RWF 2,100</strong></td>
+                        <td><span class="badge badge-success">Cash</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-sales" onclick="viewReceipt('SALE-001')">Receipt</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>SALE-002</strong></td>
+                        <td>Today, 13:15</td>
+                        <td>ABC Store</td>
+                        <td>5</td>
+                        <td><strong style="color: var(--sales-primary);">RWF 5,800</strong></td>
+                        <td><span class="badge badge-info">Mobile Money</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-sales" onclick="viewReceipt('SALE-002')">Receipt</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function viewReceipt(id) {
+            alert('Viewing receipt for ' + id);
+        }
+
+        function logout() {
+            sessionStorage.clear();
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+
+</html>
