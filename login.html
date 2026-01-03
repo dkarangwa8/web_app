@@ -246,12 +246,10 @@
 
               showAlert('Login successful! Redirecting...', 'success');
 
-              // Redirect to dashboard using URL parameter
+              // Direct redirect to dashboard
               setTimeout(() => {
-                // Get current URL and add page parameter
-                const baseUrl = window.location.href.split('?')[0];
-                window.location.href = baseUrl + '?page=index';
-              }, 1000);
+                window.location.replace(window.location.href.split('?')[0] + '?page=index');
+              }, 800);
             } else {
               showAlert(result.error || 'Invalid credentials');
               btn.disabled = false;
